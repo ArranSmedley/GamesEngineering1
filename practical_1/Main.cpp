@@ -52,11 +52,14 @@ void Load() {
     ball.setPosition(gameWidth / 2, gameHeight / 2);
 
     // Load font-face from res dir
-    font.loadFromFile("res/fonts/RobotoMono-Regular.ttf");
+    font.loadFromFile("/Debug/LemonMilk.otf");
     // Set text element to use font
     text.setFont(font);
     // set the character size to 24 pixels
     text.setCharacterSize(24);
+    text.setString("Score: " + i);
+
+    text.setPosition((gameWidth * .5f) - (text.getLocalBounds().width * .5f), 0);
 
     text.setColor(color.Blue);
 
@@ -123,12 +126,21 @@ void Update(RenderWindow& window) {
     }
 
 
-    if (Keyboard::isKeyPressed(controls[2])) {
-        direction2--;
-    }
-    if (Keyboard::isKeyPressed(controls[3])) {
+    //if (Keyboard::isKeyPressed(controls[2])) {
+    //    direction2--;
+    //}
+    //if (Keyboard::isKeyPressed(controls[3])) {
+    //    direction2++;
+    //}
+
+    if (ball.getPosition().y > paddles[1].getPosition().y)
+    {
         direction2++;
     }
+    else {
+        direction2--;
+    }
+
 
     paddles[0].move(0, direction * paddleSpeed * dt);
     paddles[1].move(0, direction2 * paddleSpeed * dt);
@@ -189,10 +201,11 @@ void Update(RenderWindow& window) {
 
 void Render(RenderWindow& window) {
     // Draw Everything
+    window.draw(text);
     window.draw(paddles[0]);
     window.draw(paddles[1]);
     window.draw(ball);
-    window.draw(text);
+  
 }
 
 
