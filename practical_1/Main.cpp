@@ -26,6 +26,8 @@ RectangleShape paddles[2];
 
 Color color;
 
+int i = 0;
+
 void Load() {
 
     for (auto& p : paddles) {
@@ -56,6 +58,8 @@ void Load() {
     // set the character size to 24 pixels
     text.setCharacterSize(24);
 
+    text.setColor(color.Blue);
+
 }
 
 
@@ -75,8 +79,10 @@ void Reset() {
     // reset Ball Position
     ball.setPosition(gameWidth / 2, gameHeight / 2);
 
+    i += 1;
+
     // Update Score Text
-    text.setString("1");
+    text.setString("Score: " + i);
     // Keep Score Text Centered
     text.setPosition((gameWidth * .5f) - (text.getLocalBounds().width * .5f), 0);
 
