@@ -22,7 +22,7 @@ void Load() {
         auto rect = IntRect(0, 0, 32, 32);
         for (int c = 0; c < invaders_columns; ++c) {
             Vector2f position = Vector2f(32 * c + 10, 32 * r + 10);
-            auto inv = new Invader(rect, position);
+            auto inv = new Invader(rect, position, false);
             ships.push_back(inv);
         }
     }
@@ -37,23 +37,13 @@ void Update(RenderWindow& window) {
 
     static Clock clock;
     float dt = clock.restart().asSeconds();
-    float direction = 0.0f;
-    float pspeed = 40.f;
+  
 
     for (auto& s : ships) {
         s->Update(dt);
     }
 
 
-    if (Keyboard::isKeyPressed(Keyboard::Left)) {
-        direction--;
-    }
-    p1.move(direction * pspeed * dt, 0);
-
-    if (Keyboard::isKeyPressed(Keyboard::Right)) {
-        direction++;
-    }
-    p1.move(direction * pspeed * dt, 0);
 
 }
 

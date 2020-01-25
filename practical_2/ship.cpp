@@ -1,12 +1,23 @@
 //ship.cpp
 #include "ship.h"
+#include "bullet.h"
 #include "game.h"
 using namespace sf;
 using namespace std;
 
+
+
 Ship::Ship() {};
 bool Invader::direction;
 float Invader::speed;
+Player p1;
+
+const Keyboard::Key controls[4] = {
+    Keyboard::Space,   // Player1 UP
+    Keyboard::Left,   // Player1 Down
+    Keyboard::Right,  // Player2 UP
+    Keyboard::Down // Player2 Down
+};
 
 
 Ship::Ship(IntRect ir) : Sprite() {
@@ -24,7 +35,8 @@ Ship::~Ship() = default;
 
 Invader::Invader() : Ship() {}
 
-Invader::Invader(sf::IntRect ir, sf::Vector2f pos) : Ship(ir) {
+Invader::Invader(sf::IntRect ir, sf::Vector2f pos, bool i) : Ship(ir) {
+    type = i;
     setOrigin(16, 16);
     setPosition(pos);
 }
@@ -42,13 +54,42 @@ void Invader::Update(const float& dt) {
         }
     }
 }
-Player::Player() : Ship(IntRect(160, 32, 32, 32)) {
+Player::Player(bool t) : Ship(IntRect(160, 32, 32, 32)) {
+    type = t;
     setPosition({ gameHeight * .5f, gameHeight - 32.f });
 }
 
 void Player::Update(const float& dt) {
     Ship::Update(dt);
+    static float firetime = 0.0f;
+    firetime -= dt;
+    float direction = 0.0f;
+    float pspeed = 40.f;
 
-  
+    if (Keyboard::isKeyPressed(Keyboard::Left)) {
+        direction--;
+    }
+    p1.move(direction * pspeed * dt, 0);
+
+    if (Keyboard::isKeyPressed(Keyboard::Right)) {
+        direction++;
+    }
+    p1.move(direction * pspeed * dt, 0);
+
+    static vector<Bullet*> bullets;
+
+    Vector2f pos = getPosition();
+    if (Keyboard::isKeyPressed(controls[0])) {
+        bullets.push_back(new Bullet(pos, false));
+    }
+    for (const auto s : bullets) {
+        s->Update(dt);
+    }
+
+    if (firetime <= 0 && Keyboard::isKeyPressed(controls[2])) {
+        Bullet::Fire(getPosition(), false);
+        firetime = 0.7f;
+    }
 
 }
+
