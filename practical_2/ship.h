@@ -1,40 +1,42 @@
-//ship.h
 #pragma once
 #include <SFML/Graphics.hpp>
 
-class Ship : public sf::Sprite {
+using namespace sf;
+
+class Ship : public Sprite
+{
 protected:
-    sf::IntRect _sprite;
-    bool _exploded;
-    //Default constructor is hidden
-    Ship();
+	IntRect _sprite;
+	//Default constructo is hidden
+	Ship();
+	bool _exploded;
+	float _fadetime = 255;
 public:
-
-    bool type;
-    //Constructor that takes a sprite
-    explicit Ship(sf::IntRect ir);
-    //Pure virtual deconstructor -- makes this an abstract class and avoids undefined behaviour!
-    virtual ~Ship() = 0;
-    //Update, virtual so can be overridden, but not pure virtual
-    virtual void Update(const float& dt);
-
-    bool is_exploded() const;
-    virtual void Explode();
-
+	bool type;
+	//Constructor that takes a sprite
+	explicit Ship(IntRect ir);
+	//Pure virtual deconstructor
+	virtual ~Ship() = 0;
+	//Update, virtual so can be overridden
+	virtual void Update(const float& dt);
+	bool is_exploded() const { return _exploded; };
+	virtual void Explode(const float& dt);
 };
 
-class Invader : public Ship {
+class Invader : public Ship
+{
 public:
-    static bool direction;
-    static float speed;
-    Invader(sf::IntRect ir, sf::Vector2f pos, bool i);
-    Invader();
-    void Update(const float& dt) override;
+	static bool direction;
+	static float speed;
+	Invader(IntRect ir, Vector2f pos, bool t);
+	Invader();
+	void Update(const float& dt) override;
 };
 
-class Player : public Ship {
+class Player : public Ship
+{
 public:
-   
-    Player(bool t);
-    void Update(const float& dt) override;
+	static float speed;
+	Player(bool t);
+	void Update(const float& dt) override;
 };
