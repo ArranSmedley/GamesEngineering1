@@ -41,22 +41,17 @@ add_custom_target(copy_resources ALL COMMAND ${CMAKE_COMMAND}
 
 add_dependencies(PRACTICAL_2 copy_resources)
 
+## Tile loader lib
+file(GLOB_RECURSE SOURCE_FILES practical_3/*.cpp practical_3/*.h)
+add_library(PRACTICAL_3 STATIC ${SOURCE_FILES})
+target_include_directories(PRACTICAL_3  INTERFACE "${CMAKE_SOURCE_DIR}/PRACTICAL_3 /" )
 
-## Tile Engine
-file(GLOB_RECURSE SOURCES practical_3/*.cpp practical_3/*.h)
-add_executable(PRACTICAL_3 ${SOURCES} )
-target_include_directories(PRACTICAL_3 SYSTEM PRIVATE ${SFML_INCS})
-target_link_libraries(PRACTICAL_3  sfml-graphics)
+target_link_libraries(PRACTICAL_3 lib_maths sfml-graphics)
 
-set_target_properties(PRACTICAL_3
-    PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY
-    ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$(Configuration)
-)
+# Maths lib
+add_library(lib_maths INTERFACE)
+target_sources(lib_maths INTERFACE "${CMAKE_SOURCE_DIR}/lib_maths/maths.h")
+target_include_directories(lib_maths INTERFACE "${CMAKE_SOURCE_DIR}/lib_maths" SYSTEM INTERFACE ${SFML_INCS})
 
-add_custom_target(copy_resources ALL COMMAND ${CMAKE_COMMAND} 
-  -E copy_directory
-    "${PROJECT_SOURCE_DIR}/res"
-    ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIGURATION>/res
-)
+target_link_libraries(PRACTICAL_3 lib_maths sfml-graphics)
 
-add_dependencies(PRACTICAL_3 copy_resources)
