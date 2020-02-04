@@ -3,31 +3,41 @@
 #include <iostream>
 #include "Player.h"
 #include "Entity.h"
-#include "LevelSystem.h"
+#include "ghost.h"
 
 
 using namespace sf;
 using namespace std;
 
-Player player1;
+
+EntityManager em;
+
+vector<Entity*> ent;
+
 const int gameWidth = 800;
 const int gameHeight = 600;
 
 void Load() {
 
-   
-    Vector2f position = Vector2f(200,200);
-    player1.setPosition(position);
+    Vector2f position = Vector2f(200, 200);
 
-    ls::loadLevelFile("res/maze_2.txt");
+    for (int i = 0; i < 4; i++)
+    {
+        ent[i]->setPosition(position);
 
-    // Print the level to the console
-    for (size_t y = 0; y < ls::getHeight(); ++y) {
-        for (size_t x = 0; x < ls::getWidth(); ++x) {
-            cout << ls::getTile({ x, y });
-        }
-        cout << endl;
+        auto ghost = new Ghost();
     }
+    auto player = new Player();
+
+    em.list.push_back(player, );
+
+    for (const auto s : ghosts)
+    {
+        s->setPosition(position);
+    }
+
+
+
 
 }
 
@@ -45,6 +55,11 @@ void Update(RenderWindow& window) {
     float dt = clock.restart().asSeconds();
 
     player1.Update(dt);
+    for(const auto s : ghosts)
+    {
+        s->Update(dt);
+    }
+
 
 
 }
@@ -53,8 +68,12 @@ void Update(RenderWindow& window) {
 void Render(RenderWindow& window) {
     // Draw Everything
 
-    ls::Render(window);
     player1.Render(window);
+    for (const auto s : ghosts)
+    {
+       s->Render(window);
+    }
+
 
 }
 
@@ -62,7 +81,7 @@ void Render(RenderWindow& window) {
 
 
 int main() {
-    RenderWindow window(VideoMode(gameWidth, gameHeight), "PONG");
+    RenderWindow window(VideoMode(gameWidth, gameHeight), "PAC-MAN");
     Load();
     while (window.isOpen()) {
         window.clear();
