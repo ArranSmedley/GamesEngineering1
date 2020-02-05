@@ -29,7 +29,7 @@ void Load() {
     }
     auto player = new Player();
 
-    em.list.push_back(player, );
+    em.list.push_back(player);
 
     for (const auto s : ghosts)
     {

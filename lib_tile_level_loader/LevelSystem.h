@@ -4,7 +4,7 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include <maths.h>
+#include "../lib_maths/maths.h"
 
 #define ls LevelSystem
 
