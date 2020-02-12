@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Entity.h"
 #include "ghost.h"
+#include "system_renderer.h"
 
 
 using namespace sf;
@@ -11,8 +12,9 @@ using namespace std;
 
 
 EntityManager em;
+Player player1;
 
-vector<Entity*> ent;
+vector<Entity*> ghosts;
 
 const int gameWidth = 800;
 const int gameHeight = 600;
@@ -21,15 +23,8 @@ void Load() {
 
     Vector2f position = Vector2f(200, 200);
 
-    for (int i = 0; i < 4; i++)
-    {
-        ent[i]->setPosition(position);
 
-        auto ghost = new Ghost();
-    }
-    auto player = new Player();
-
- //   em.list.push_back();
+  //  em.list.push_back(p1);
 
     for (const auto s : ghosts)
     {
@@ -74,7 +69,7 @@ void Render(RenderWindow& window) {
        s->Render(window);
     }
 
-
+    Renderer::queue();
 }
 
 
