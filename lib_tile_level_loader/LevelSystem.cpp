@@ -1,9 +1,6 @@
 #include "LevelSystem.h"
 #include <fstream>
-#include <consoleapi2.h>
-#include <processenv.h>
-#include <WinBase.h>
-#include <iostream>
+
 
 using namespace std;
 using namespace sf;
@@ -31,6 +28,13 @@ void LevelSystem::setColor(LevelSystem::TILE t, sf::Color c) {
     c = Color::Red;
 }
 
+float LevelSystem::getHeight(){
+    return _height;
+}
+
+float LevelSystem::getWidth() {
+    return _width;
+}
 
 
 void LevelSystem::loadLevelFile(const std::string& path, float tileSize) {
@@ -74,13 +78,13 @@ void LevelSystem::loadLevelFile(const std::string& path, float tileSize) {
             temp_tiles.push_back(ENEMY);
             break;
         case '\n':      // end of line
-            if (w == 0) { // if we haven't written width yet
+            if (w == 0) { 
                 w = i;      // set width
             }
             h++; // increment height
             break;
         default:
-            cout << c << endl; // Don't know what this tile type is
+            cout << c << endl; 
         }
     }
     if (temp_tiles.size() != (w * h)) {
@@ -130,3 +134,4 @@ void LevelSystem::Render(RenderWindow& window) {
     for (size_t i = 0; i < _width * _height; ++i) {
         window.draw(*_sprites[i]);
     }
+}

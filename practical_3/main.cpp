@@ -3,7 +3,7 @@
 #include <iostream>
 #include "Player.h"
 #include "Entity.h"
-#include "../lib_tile_level_loader/LevelSystem.cpp"
+#include "LevelSystem.h"
 
 
 using namespace sf;
@@ -15,16 +15,15 @@ const int gameHeight = 600;
 
 void Load() {
 
-   
     Vector2f position = Vector2f(200,200);
     player1.setPosition(position);
 
-    LevelSystem::loadLevelFile("res/maze_2.txt");
+    ls::loadLevelFile("C:/Users/Arran/Documents/GitHub/GamesEngineering1/res/maze_2.txt");
 
     // Print the level to the console
-    for (size_t y = 0; y < LevelSystem::getHeight(); ++y) {
-        for (size_t x = 0; x < LevelSystem::getWidth(); ++x) {
-            cout << LevelSystem::getTile({ x, y });
+    for (size_t y = 0; y < ls::getHeight(); ++y) {
+        for (size_t x = 0; x < ls::getWidth(); ++x) {
+            cout << ls::getTile({ x, y });
         }
         cout << endl;
     }
@@ -43,7 +42,6 @@ void Update(RenderWindow& window) {
 
     static Clock clock;
     float dt = clock.restart().asSeconds();
-
     player1.Update(dt);
 
 
@@ -52,12 +50,10 @@ void Update(RenderWindow& window) {
 
 void Render(RenderWindow& window) {
     // Draw Everything
-
-    LevelSystem::Render(window);
+    ls::Render(window);
     player1.Render(window);
 
 }
-
 
 
 
