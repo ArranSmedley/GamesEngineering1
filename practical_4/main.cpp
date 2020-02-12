@@ -5,6 +5,8 @@
 #include "Entity.h"
 #include "ghost.h"
 #include "system_renderer.h"
+#include "scene.h"
+#include "pacman.h"
 
 
 using namespace sf;
@@ -21,16 +23,12 @@ const int gameHeight = 600;
 
 void Load() {
 
-    Vector2f position = Vector2f(200, 200);
-
-
-  //  em.list.push_back(p1);
-
-    for (const auto s : ghosts)
-    {
-        s->setPosition(position);
-    }
-
+    gameScene.reset(new GameScene());
+    menuScene.reset(new MenuScene());
+    gameScene->load();
+    menuScene->load();
+    // Start at main menu
+    activeScene = menuScene;
 
 
 
@@ -48,12 +46,7 @@ void Update(RenderWindow& window) {
 
     static Clock clock;
     float dt = clock.restart().asSeconds();
-
-    player1.Update(dt);
-    for(const auto s : ghosts)
-    {
-        s->Update(dt);
-    }
+    activeScene->update(dt);
 
 
 
@@ -61,15 +54,9 @@ void Update(RenderWindow& window) {
 
 
 void Render(RenderWindow& window) {
-    // Draw Everything
-
-    player1.Render(window);
-    for (const auto s : ghosts)
-    {
-       s->Render(window);
-    }
-
-    Renderer::queue();
+    activeScene->render();
+    // flush to screen
+    Renderer::render();
 }
 
 
