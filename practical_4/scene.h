@@ -1,17 +1,18 @@
 #pragma once
-#include <SFML/Graphics.hpp>
-#include "entity.h"
+#include <memory>
+#include <vector>
+#include "Entity.h"
 
 class Scene {
 public:
-    Scene() = default;
+	Scene() = default;
 
-    virtual ~Scene() = default;
-    virtual void update(double dt);
-    virtual void render();
-    virtual void load() = 0;
-    std::vector<std::shared_ptr<Entity>>& getEnts();
+	virtual ~Scene() = default;
+	virtual void update(float dt);
+	virtual void render();
+	virtual void load() = 0;
+	std::vector<std::shared_ptr<Entity>> &getEntities();
 
 protected:
-    EntityManager _ents;
+	EntityManager entityManager;
 };

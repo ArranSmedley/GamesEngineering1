@@ -1,75 +1,77 @@
+// remove console window in release build
+#ifndef _DEBUG
+#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+#endif
+
 #include <SFML/Graphics.hpp>
-#include <string>
-#include <iostream>
-#include "Player.h"
-#include "Entity.h"
-#include "ghost.h"
-#include "system_renderer.h"
-#include "scene.h"
+#include <LevelSystem.h>
+#include "main.h"
+#include "system-renderer.h"
 #include "pacman.h"
 
-
-using namespace sf;
 using namespace std;
+using namespace sf;
 
+Font font;
+int gameWidth = 800;
+int gameHeight = 600;
 
-EntityManager em;
-Player player1;
+void load() {
+	font.loadFromFile("C:/Users/Arran/Documents/GitHub/GamesEngineering1/res/Jungle-Land.ttf");
 
-vector<Entity*> ghosts;
+	// load scenes
+	menuScene.reset(new MenuScene());
+	gameScene.reset(new GameScene());
 
-const int gameWidth = 800;
-const int gameHeight = 600;
+	gameScene->load();
+	menuScene->load();
 
-void Load() {
-
-    gameScene.reset(new GameScene());
-    menuScene.reset(new MenuScene());
-    gameScene->load();
-    menuScene->load();
-    // Start at main menu
-    activeScene = menuScene;
-
-
-
+	// start on menu
+	activeScene = menuScene;
 }
 
-
-void Reset() {
-
-
-
+void reset() {
+	// reset rand seed
+	srand(time(nullptr));
 }
 
+void update() {
+	static Clock clock;
+	const float dt = clock.restart().asSeconds();
+	RenderWindow& window = renderer::getWindow();
 
-void Update(RenderWindow& window) {
+	Event event;
+	while(window.pollEvent(event)) {
+		if (event.type == Event::Closed)
+			window.close();
+	}
 
-    static Clock clock;
-    float dt = clock.restart().asSeconds();
-    activeScene->update(dt);
+	if (Keyboard::isKeyPressed(Keyboard::Escape))
+		window.close();
 
-
-
+	activeScene->update(dt);
 }
 
-
-void Render(RenderWindow& window) {
-    activeScene->render();
-    // flush to screen
-    Renderer::render();
+void render() {
+	activeScene->render();
+	renderer::render();
 }
-
-
-
 
 int main() {
-    RenderWindow window(VideoMode(gameWidth, gameHeight), "PAC-MAN");
-    Load();
-    while (window.isOpen()) {
-        window.clear();
-        Update(window);
-        Render(window);
-        window.display();
-    }
-    return 0;
+	RenderWindow window(VideoMode(gameWidth, gameHeight), "Pacman", Style::Titlebar | Style::Close);
+	renderer::initialise(window);
+
+	load();
+	reset();
+
+	while(window.isOpen()) {
+		window.clear();
+		update();
+		render();
+		window.display();
+	}
+
+	renderer::shutdown();
+
+	return 0;
 }
