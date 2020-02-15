@@ -18,12 +18,12 @@ void Load() {
     Vector2f position = Vector2f(200,200);
     player1.setPosition(position);
 
-    ls::LoadLevelFile("C:/Users/Arran/Documents/GitHub/GamesEngineering1/res/maze_2.txt");
+    ls::loadLevelFile("C:/Users/Arran/Documents/GitHub/GamesEngineering1/res/maze_2.txt");
 
     // Print the level to the console
-    for (size_t y = 0; y < ls::GetHeight(); ++y) {
-        for (size_t x = 0; x < ls::GetWidth(); ++x) {
-            cout << ls::GetTile({ x, y });
+    for (size_t y = 0; y < ls::getHeight(); ++y) {
+        for (size_t x = 0; x < ls::getWidth(); ++x) {
+            cout << ls::getTile({ x, y });
         }
         cout << endl;
     }
@@ -50,7 +50,7 @@ void Update(RenderWindow& window) {
 
 void Render(RenderWindow& window) {
     // Draw Everything
-    ls::Render(window);
+    ls::render(window);
     player1.Render(window);
 
 }

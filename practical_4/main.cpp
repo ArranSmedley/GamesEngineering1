@@ -1,7 +1,3 @@
-// remove console window in release build
-#ifndef _DEBUG
-#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
-#endif
 
 #include <SFML/Graphics.hpp>
 #include <LevelSystem.h>

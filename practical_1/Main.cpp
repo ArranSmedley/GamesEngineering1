@@ -52,12 +52,12 @@ void Load() {
     ball.setPosition(gameWidth / 2, gameHeight / 2);
 
     // Load font-face from res dir
-    font.loadFromFile("/Debug/LemonMilk.otf");
+    font.loadFromFile("C:/Users/Arran/Documents/GitHub/GamesEngineering1/res/Jungle-Land.ttf");
     // Set text element to use font
     text.setFont(font);
     // set the character size to 24 pixels
     text.setCharacterSize(24);
-    text.setString("Score: " + i);
+    text.setString("PONG");
 
     text.setPosition((gameWidth * .5f) - (text.getLocalBounds().width * .5f), 0);
 
@@ -85,7 +85,7 @@ void Reset() {
     i += 1;
 
     // Update Score Text
-    text.setString("Score: " + i);
+    text.setString("PONG");
     // Keep Score Text Centered
     text.setPosition((gameWidth * .5f) - (text.getLocalBounds().width * .5f), 0);
 
